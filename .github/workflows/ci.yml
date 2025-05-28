@@ -18,11 +18,21 @@ jobs:
         with:
           bun-version: 1.2.12
 
-      - name: Install dependencies
+      - name: Install dependencies (Windows)
         run: bun install
+        shell: pwsh
+        if: runner.os == 'Windows'
+      - name: Install dependencies (Unix)
+        run: bun install
+        if: runner.os != 'Windows'
 
-      - name: Run tests
+      - name: Run tests (Windows)
         run: bun test
+        shell: pwsh
+        if: runner.os == 'Windows'
+      - name: Run tests (Unix)
+        run: bun test
+        if: runner.os != 'Windows'
 
   prettier:
     runs-on: ${{ matrix.os }}
@@ -36,11 +46,21 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install dependencies
+      - name: Install dependencies (Windows)
         run: bun install
+        shell: pwsh
+        if: runner.os == 'Windows'
+      - name: Install dependencies (Unix)
+        run: bun install
+        if: runner.os != 'Windows'
 
-      - name: Run prettier check
+      - name: Run prettier check (Windows)
         run: bun run format:check
+        shell: pwsh
+        if: runner.os == 'Windows'
+      - name: Run prettier check (Unix)
+        run: bun run format:check
+        if: runner.os != 'Windows'
 
   typecheck:
     runs-on: ${{ matrix.os }}
@@ -54,8 +74,18 @@ jobs:
         with:
           bun-version: 1.2.12
 
-      - name: Install dependencies
+      - name: Install dependencies (Windows)
         run: bun install
+        shell: pwsh
+        if: runner.os == 'Windows'
+      - name: Install dependencies (Unix)
+        run: bun install
+        if: runner.os != 'Windows'
 
-      - name: Run TypeScript type check
+      - name: Run TypeScript type check (Windows)
         run: bun run typecheck
+        shell: pwsh
+        if: runner.os == 'Windows'
+      - name: Run TypeScript type check (Unix)
+        run: bun run typecheck
+        if: runner.os != 'Windows'
