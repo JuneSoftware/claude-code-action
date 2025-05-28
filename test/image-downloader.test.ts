@@ -161,7 +161,7 @@ describe("downloadCommentImages", () => {
     );
     expect(consoleLogSpy).toHaveBeenCalledWith(`Downloading ${imageUrl}...`);
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining("/tmp/github-images/image-1704067200000-0.png"),
+      expect.stringContaining("/tmp/github-images/image-1704067200000-0.png")
     );
   });
 
