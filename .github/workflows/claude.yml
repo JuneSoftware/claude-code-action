@@ -31,6 +31,6 @@ jobs:
 
       - name: Run Claude Code Custom
         id: claude
-        uses: JuneSoftware/claude-code-action@beta
+        uses: JuneSoftware/claude-code-action@main
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
