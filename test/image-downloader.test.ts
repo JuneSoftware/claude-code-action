@@ -13,6 +13,11 @@ import { downloadCommentImages } from "../src/github/utils/image-downloader";
 import type { CommentWithImages } from "../src/github/utils/image-downloader";
 import type { Octokits } from "../src/github/api/client";
 
+// Helper to normalize paths to POSIX style for cross-platform test assertions
+function normalizeToPosix(p: string): string {
+  return p.replace(/\\/g, "/");
+}
+
 describe("downloadCommentImages", () => {
   let consoleLogSpy: any;
   let consoleWarnSpy: any;
@@ -146,15 +151,15 @@ describe("downloadCommentImages", () => {
     );
 
     expect(result.size).toBe(1);
-    expect(result.get(imageUrl)).toBe(
-      "/tmp/github-images/image-1704067200000-0.png",
+    expect(normalizeToPosix(result.get(imageUrl) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.png")
     );
     expect(consoleLogSpy).toHaveBeenCalledWith(
       "Found 1 image(s) in issue_comment 123",
     );
     expect(consoleLogSpy).toHaveBeenCalledWith(`Downloading ${imageUrl}...`);
-    expect(consoleLogSpy).toHaveBeenCalledWith(
-      "✓ Saved: /tmp/github-images/image-1704067200000-0.png",
+    expect(normalizeToPosix(fsWriteFileSpy.mock.calls[0][0])).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.png")
     );
   });
 
@@ -199,8 +204,8 @@ describe("downloadCommentImages", () => {
       mediaType: { format: "full+json" },
     });
 
-    expect(result.get(imageUrl)).toBe(
-      "/tmp/github-images/image-1704067200000-0.jpg",
+    expect(normalizeToPosix(result.get(imageUrl) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.jpg")
     );
   });
 
@@ -247,8 +252,8 @@ describe("downloadCommentImages", () => {
       mediaType: { format: "full+json" },
     });
 
-    expect(result.get(imageUrl)).toBe(
-      "/tmp/github-images/image-1704067200000-0.png",
+    expect(normalizeToPosix(result.get(imageUrl) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.png")
     );
   });
 
@@ -293,8 +298,8 @@ describe("downloadCommentImages", () => {
       mediaType: { format: "full+json" },
     });
 
-    expect(result.get(imageUrl)).toBe(
-      "/tmp/github-images/image-1704067200000-0.gif",
+    expect(normalizeToPosix(result.get(imageUrl) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.gif")
     );
     expect(consoleLogSpy).toHaveBeenCalledWith(
       "Found 1 image(s) in issue_body 200",
@@ -341,8 +346,8 @@ describe("downloadCommentImages", () => {
       mediaType: { format: "full+json" },
     });
 
-    expect(result.get(imageUrl)).toBe(
-      "/tmp/github-images/image-1704067200000-0.webp",
+    expect(normalizeToPosix(result.get(imageUrl) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.webp")
     );
     expect(consoleLogSpy).toHaveBeenCalledWith(
       "Found 1 image(s) in pr_body 300",
@@ -387,11 +392,11 @@ describe("downloadCommentImages", () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     expect(result.size).toBe(2);
-    expect(result.get(imageUrl1)).toBe(
-      "/tmp/github-images/image-1704067200000-0.png",
+    expect(normalizeToPosix(result.get(imageUrl1) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.png")
     );
-    expect(result.get(imageUrl2)).toBe(
-      "/tmp/github-images/image-1704067200000-1.jpg",
+    expect(normalizeToPosix(result.get(imageUrl2) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-1.jpg")
     );
     expect(consoleLogSpy).toHaveBeenCalledWith(
       "Found 2 image(s) in issue_comment 999",
@@ -438,8 +443,8 @@ describe("downloadCommentImages", () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(1); // Only downloaded once
     expect(result.size).toBe(1);
-    expect(result.get(imageUrl)).toBe(
-      "/tmp/github-images/image-1704067200000-0.png",
+    expect(normalizeToPosix(result.get(imageUrl) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.png")
     );
   });
 
@@ -610,8 +615,8 @@ describe("downloadCommentImages", () => {
         "repo",
         comments,
       );
-      expect(result.get(url)).toBe(
-        `/tmp/github-images/image-${1704067200000 + callIndex}-0${ext}`,
+      expect(normalizeToPosix(result.get(url) ?? "")).toBe(
+        normalizeToPosix(`/tmp/github-images/image-${1704067200000 + callIndex}-0${ext}`)
       );
 
       // Reset for next iteration
@@ -657,8 +662,8 @@ describe("downloadCommentImages", () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     expect(result.size).toBe(1);
-    expect(result.get(imageUrl1)).toBe(
-      "/tmp/github-images/image-1704067200000-0.png",
+    expect(normalizeToPosix(result.get(imageUrl1) ?? "")).toBe(
+      normalizeToPosix("/tmp/github-images/image-1704067200000-0.png")
     );
     expect(result.get(imageUrl2)).toBeUndefined();
   });
