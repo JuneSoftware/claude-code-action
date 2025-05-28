@@ -1,4 +1,4 @@
-name: Claude Code
+name: Claude Code Modded
 
 on:
   issue_comment:
@@ -29,8 +29,8 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude Code
+      - name: Run Claude Code Custom
         id: claude
-        uses: anthropics/claude-code-action@beta
+        uses: JuneSoftware/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
