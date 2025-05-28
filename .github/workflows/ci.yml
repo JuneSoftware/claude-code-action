@@ -7,10 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -18,27 +15,16 @@ jobs:
         with:
           bun-version: 1.2.12
 
-      - name: Install dependencies (Windows)
+      - name: Install dependencies
         run: bun install
         shell: pwsh
-        if: runner.os == 'Windows'
-      - name: Install dependencies (Unix)
-        run: bun install
-        if: runner.os != 'Windows'
 
-      - name: Run tests (Windows)
+      - name: Run tests
         run: bun test
         shell: pwsh
-        if: runner.os == 'Windows'
-      - name: Run tests (Unix)
-        run: bun test
-        if: runner.os != 'Windows'
 
   prettier:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -46,27 +32,16 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install dependencies (Windows)
+      - name: Install dependencies
         run: bun install
         shell: pwsh
-        if: runner.os == 'Windows'
-      - name: Install dependencies (Unix)
-        run: bun install
-        if: runner.os != 'Windows'
 
-      - name: Run prettier check (Windows)
+      - name: Run prettier check
         run: bun run format:check
         shell: pwsh
-        if: runner.os == 'Windows'
-      - name: Run prettier check (Unix)
-        run: bun run format:check
-        if: runner.os != 'Windows'
 
   typecheck:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -74,18 +49,10 @@ jobs:
         with:
           bun-version: 1.2.12
 
-      - name: Install dependencies (Windows)
+      - name: Install dependencies
         run: bun install
         shell: pwsh
-        if: runner.os == 'Windows'
-      - name: Install dependencies (Unix)
-        run: bun install
-        if: runner.os != 'Windows'
 
-      - name: Run TypeScript type check (Windows)
+      - name: Run TypeScript type check
         run: bun run typecheck
         shell: pwsh
-        if: runner.os == 'Windows'
-      - name: Run TypeScript type check (Unix)
-        run: bun run typecheck
-        if: runner.os != 'Windows'
