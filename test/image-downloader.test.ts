@@ -61,11 +61,6 @@ describe("downloadCommentImages", () => {
     } as any as Octokits;
   };
 
-  // Helper to normalize paths to POSIX style for cross-platform test assertions
-  function normalizeToPosix(p: string): string {
-    return p.replace(/\\/g, "/");
-  }
-
   test("should create download directory", async () => {
     const mockOctokit = createMockOctokit();
     const comments: CommentWithImages[] = [];
@@ -117,7 +112,6 @@ describe("downloadCommentImages", () => {
 
     // Mock fetch for image download
     const mockArrayBuffer = new ArrayBuffer(8);
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => mockArrayBuffer,
@@ -146,7 +140,6 @@ describe("downloadCommentImages", () => {
     });
 
     expect(fetchSpy).toHaveBeenCalledWith(signedUrl);
-    // @ts-expect-error Buffer is available in Bun/Node
     expect(fsWriteFileSpy).toHaveBeenCalledWith(
       "/tmp/github-images/image-1704067200000-0.png",
       Buffer.from(mockArrayBuffer),
@@ -161,7 +154,7 @@ describe("downloadCommentImages", () => {
     );
     expect(consoleLogSpy).toHaveBeenCalledWith(`Downloading ${imageUrl}...`);
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining("/tmp/github-images/image-1704067200000-0.png")
+      "✓ Saved: /tmp/github-images/image-1704067200000-0.png",
     );
   });
 
@@ -179,7 +172,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => new ArrayBuffer(8),
@@ -226,7 +218,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => new ArrayBuffer(8),
@@ -275,7 +266,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => new ArrayBuffer(8),
@@ -324,7 +314,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => new ArrayBuffer(8),
@@ -376,7 +365,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => new ArrayBuffer(8),
@@ -423,7 +411,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => new ArrayBuffer(8),
@@ -501,7 +488,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: false,
       status: 404,
@@ -603,7 +589,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => new ArrayBuffer(8),
@@ -650,7 +635,6 @@ describe("downloadCommentImages", () => {
       },
     });
 
-    // @ts-expect-error global is available in Bun/Node
     fetchSpy = spyOn(global, "fetch").mockResolvedValue({
       ok: true,
       arrayBuffer: async () => new ArrayBuffer(8),
